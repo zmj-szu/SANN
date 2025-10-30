@@ -19,8 +19,15 @@ conda activate SANN_env
 pip install -r requirements.txt
 ```
 ### 3. Run the Example
-Users can test the pipeline using the included `raw_data0126_OLC.xlsx`, which serves as a small sample dataset. Please note that this file is provided solely for demonstration purposes and does not represent the full dataset used in our experiments. 
-Replacing it with your dataset following the same structure.
+A small sample dataset `sample_data.xlsx` is provided for testing the pipeline and understanding the data structure. Please note that this sample may not contain sufficient data points to fully replicate the SMOTE sampling or 10-fold cross-validation procedures described in our paper, as the original dataset is not publicly available due to ethical considerations regarding participant privacy. The sample is intended primarily to demonstrate the format and structure of the data used in our study. 
+
+To run your own dataset, please follow these steps:
+
+1. Create a new directory named `data`.
+2. Rename your dataset file to `raw_data0126_OLC.xlsx`.
+3. Place the renamed file into the `data` directory.
+   
+Ensure your dataset follows the same structure as the sample provided to maintain compatibility with the pipeline.
 ```
 python self_attention_ann.py
 ```
