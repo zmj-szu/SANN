@@ -6,7 +6,7 @@ from scipy.stats import rankdata
 from sklearn.metrics import roc_auc_score, brier_score_loss, confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import KFold,StratifiedKFold
 from lifelines.utils import concordance_index
-import tensorflow as tf
+# import tensorflow as tf  #删
 import torch
 import torch.nn.functional as F
 import math, copy
@@ -15,12 +15,13 @@ import torch.optim as optim
 from torch import nn
 from torch.utils.data import Dataset, DataLoader
 from sklearn.model_selection import train_test_split
-from pytorchtools import EarlyStopping
+# from pytorchtools import EarlyStopping  #删
 from imblearn.over_sampling import SMOTE  
 import warnings
 warnings.filterwarnings("ignore")
 from sklearn.metrics import roc_curve,auc
-from scipy import interp
+
+# from scipy import interp  # 没用到，删
 from sklearn.calibration import calibration_curve
 from openpyxl import Workbook
 from openpyxl.utils.dataframe import dataframe_to_rows
@@ -30,8 +31,8 @@ seed_value =528
 np.random.seed(seed_value)
 torch.manual_seed(seed_value)
 torch.cuda.manual_seed_all(seed_value)
-tf.keras.utils.set_random_seed(seed_value)
-tf.config.experimental.enable_op_determinism()
+# tf.keras.utils.set_random_seed(seed_value)  #删
+# tf.config.experimental.enable_op_determinism()  #删
 torch.backends.cudnn.benchmark=False
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.enabled =True
@@ -120,7 +121,7 @@ class MultiHeadedAttention(nn.Module):
 
         # 1) Do all the linear projections in batch from d_model => h x d_k
         query, key, value = \
-            [l(x).view(nbatches, -1, self.h, self.d_k).transpose(1, 2)
+            [l(x.float()).view(nbatches, -1, self.h, self.d_k).transpose(1, 2)
              for l, x in zip(self.linears, (query, key, value))]
 
         # 2) Apply attention on all the projected vectors in batch.
@@ -171,7 +172,7 @@ class MyDataset(Dataset):
 
 
 
-data_df = pd.read_excel('/data_5.0/data_process5.0.xlsx')
+data_df = pd.read_excel('./data/raw_data0126_OLC.xlsx')
 data = data_df.drop('MT', axis=1)
 # year = data['FollowYear'] #smote
 # val_data = pd.read_excel('/data_7.0/CU_ExV_updating.xlsx')
@@ -180,9 +181,9 @@ data = data_df.drop('MT', axis=1)
 batch_size = 40
 epoch = 200
 h= 1
-num_te = 31
+num_te = 24
 d_model = 1
-n_splits = 10
+n_splits = 5
 dropout_multihead = 0.01
 initial_lr = 0.01
 dropout = 0.0005
@@ -194,11 +195,17 @@ patience =30
 X = data
 Y = data_df['MT']
 ##smote
-smote = SMOTE()  
-X, Y = smote.fit_resample(X, Y)  
-year = X['Follow-up']
+# 新增 k_neighbors=2
+smote = SMOTE(k_neighbors=2)
+X, Y = smote.fit_resample(X, Y)
+
+# 查无此列
+# year = X['Follow-up']
+year = X['FollowYear2']
+
 ##
-X = X.drop('Follow-up', axis=1)
+# X = X.drop('Follow-up', axis=1)
+X = X.drop('FollowYear2', axis=1)
 X_display = X.columns.tolist()
 
 standard_s1 = MinMaxScaler()  
