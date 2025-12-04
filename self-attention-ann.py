@@ -134,7 +134,7 @@ class MultiHeadedAttention(nn.Module):
             .view(nbatches, -1, self.h * self.d_k)
         return self.linears[-1](x)
 
-class selfattetionann(nn.Module):
+class selfattentionann(nn.Module):
     def __init__(self,h,d_model,dropout_multihead,dropout,num_te):
         super().__init__()
         self.input_to_hidden_layer_1 = nn.Linear(num_te,10)
@@ -246,7 +246,7 @@ threshold_list = []
 
 
 for train_index, test_index in skfolds.split(X, Y):
-    model = selfattetionann(h, d_model, dropout_multihead, dropout, num_te)
+    model = selfattentionann(h, d_model, dropout_multihead, dropout, num_te)
     opt = optim.Adam(model.parameters(), lr=initial_lr,weight_decay=weight_decay)
     # lossfuc = nn.BCELoss()
     lossfuc = nn.MSELoss()
@@ -384,5 +384,6 @@ metrics_df = pd.DataFrame({
 
 # save
 metrics_df.to_excel('./smote_selfAttention_ann.xlsx', index=False)
+
 
 
