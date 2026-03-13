@@ -5,6 +5,36 @@
 # Background
 Oral potentially malignant disorders (OPMDs) carry an inherent risk of malignant transformation (MT), making early detection and appropriate management essential to prevent neoplastic progression. However, the absence of reliable predictive models has impeded the accurate identification of OPMD patients at heightened risk for MT. This study aimed to compare the predictive performance of traditional statistical methods with machine learning (ML) algorithms and to propose a novel enhanced ML framework specifically designed for accurate MT risk prediction in OPMDs.
 
+# Quick Start
+
+You can set up the environment and run the demo protocol in under 30 minutes by running the following commands:
+
+**Note on Data**: A small synthetic dataset, `sample_data.xlsx`, is included to demonstrate the data structure and test the pipeline. Please be aware that this sample size is insufficient for full reproduction of SMOTE sampling or 10-fold cross-validation. The full clinical dataset is not publicly available due to ethical restrictions. Users should replace the `raw_data0126_OLC.xlsx`in the `data/` directoy with their own dataset (formatted according to the schema) to perform robust analysis.
+
+ 
+#### 1. Clone the repository  
+```bash 
+git clone https://github.com/zmj-szu/SANN.git
+cd SANN
+```
+
+#### 2. Create and activate a virtual environment (Python 3.10)  
+```bash 
+conda create -n SANN_env python=3.10
+conda activate SANN_env
+```
+
+#### 3. Install dependencies  
+```bash 
+pip install -r requirements.txt
+```
+
+#### 4. Run the demo  
+```bash 
+python self-attention-ann.py
+```
+
+
 # Installation
 ### **Git Download and Installation (if not installed)**
 Before cloning the repository, please ensure that **Git** is installed on your computer. If you haven't installed Git yet, follow the steps below:
